@@ -13,14 +13,21 @@ render.yaml
 Ese archivo crea:
 
 - Un servicio web Docker llamado `merka-sync-server`.
-- Una base de datos PostgreSQL llamada `merka-sync-db`.
-- La variable `DATABASE_URL` conectada automáticamente desde PostgreSQL.
+- La variable `DATABASE_URL`, que debe apuntar a una base PostgreSQL existente de Render.
 - La variable secreta `MERKA_SYNC_PUBLIC_KEY_PEM`, que Render debe pedir durante el setup.
 - Health check en `/health`.
 
 ## Variable obligatoria
 
 Render debe tener configurada:
+
+```text
+DATABASE_URL
+```
+
+Valor esperado: la Internal Database URL de tu PostgreSQL existente en Render.
+
+También debe tener configurada:
 
 ```text
 MERKA_SYNC_PUBLIC_KEY_PEM
@@ -44,9 +51,11 @@ El backend también acepta el alias `MERKA_LICENSE_PUBLIC_KEY_PEM`, pero se reco
 2. Entrar a Render y crear un nuevo Blueprint.
 3. Seleccionar el repositorio de MerkaERP.
 4. Usar el `render.yaml` de la raíz del proyecto.
-5. Cuando Render pregunte por `MERKA_SYNC_PUBLIC_KEY_PEM`, pegar la llave pública.
-6. Esperar a que Render cree la base PostgreSQL y el servicio Docker.
-7. Abrir:
+5. Cuando Render pregunte por `DATABASE_URL`, pegar la Internal Database URL de la base PostgreSQL existente.
+6. Cuando Render pregunte por `MERKA_SYNC_PUBLIC_KEY_PEM`, pegar la llave pública.
+7. Esperar a que Render cree el servicio Docker.
+8. Si estás reintentando después de un fallo por límite de bases free, ejecuta Sync/Redeploy del Blueprint para que tome el `render.yaml` actualizado.
+9. Abrir:
 
 ```text
 https://<tu-servicio>.onrender.com/health
@@ -98,4 +107,3 @@ dart run bin/server.dart --port 8080
 ```
 
 Para correr localmente también necesitas `DATABASE_URL` y `MERKA_SYNC_PUBLIC_KEY_PEM` en el entorno.
-
