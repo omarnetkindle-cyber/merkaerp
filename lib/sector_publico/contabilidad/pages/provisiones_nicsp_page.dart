@@ -40,10 +40,7 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
 
   Future<List<Map<String, dynamic>>> _init() async {
     final db = await DatabaseHelper.instance.database;
-    _svc = ProvisionesService(
-      db: db,
-      auditoriaService: AuditoriaService(db),
-    );
+    _svc = ProvisionesService(db: db, auditoriaService: AuditoriaService(db));
     return _svc!.consultarProvisiones(
       entidadId: widget.entidadId,
       estado: _filtroEstado == 'todas' ? null : _filtroEstado,
@@ -68,7 +65,7 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(Icons.add),
         label: const Text('Nueva provisión'),
-        onPressed: () => _abrirFormulario(context),
+        onPressed: _abrirFormulario,
       ),
       body: Column(
         children: [
@@ -86,7 +83,9 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
                     DropdownMenuItem(value: 'activa', child: Text('Activas')),
                     DropdownMenuItem(value: 'agotada', child: Text('Agotadas')),
                     DropdownMenuItem(
-                        value: 'revertida', child: Text('Revertidas')),
+                      value: 'revertida',
+                      child: Text('Revertidas'),
+                    ),
                   ],
                   onChanged: (v) {
                     if (v != null) {
@@ -114,15 +113,18 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.warning_amber_rounded,
-                            size: 56, color: MerkaThemeTokens.graphite600),
+                        Icon(
+                          Icons.warning_amber_rounded,
+                          size: 56,
+                          color: MerkaThemeTokens.graphite600,
+                        ),
                         const SizedBox(height: 12),
                         Text('Sin provisiones $_filtroEstado'),
                         const SizedBox(height: 8),
                         TextButton.icon(
                           icon: const Icon(Icons.add),
                           label: const Text('Crear primera provisión'),
-                          onPressed: () => _abrirFormulario(context),
+                          onPressed: _abrirFormulario,
                         ),
                       ],
                     ),
@@ -131,9 +133,8 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
                 return ListView.separated(
                   padding: const EdgeInsets.all(12),
                   itemCount: rows.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
-                  itemBuilder: (context, i) =>
-                      _provisionTile(context, rows[i]),
+                  separatorBuilder: (_, _) => const Divider(height: 1),
+                  itemBuilder: (context, i) => _provisionTile(context, rows[i]),
                 );
               },
             ),
@@ -147,9 +148,15 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
     final estado = row['estado']?.toString() ?? 'activa';
     final tipo = row['tipo_provision']?.toString() ?? '';
     final descripcion = row['descripcion']?.toString() ?? '';
-    final saldo = publicMoneyForDisplay(publicMoneyFromSql(row['saldo_disponible']));
-    final total = publicMoneyForDisplay(publicMoneyFromSql(row['valor_provision']));
-    final utilizado = publicMoneyForDisplay(publicMoneyFromSql(row['valor_utilizado']));
+    final saldo = publicMoneyForDisplay(
+      publicMoneyFromSql(row['saldo_disponible']),
+    );
+    final total = publicMoneyForDisplay(
+      publicMoneyFromSql(row['valor_provision']),
+    );
+    final utilizado = publicMoneyForDisplay(
+      publicMoneyFromSql(row['valor_utilizado']),
+    );
     // id se pasa directamente desde row a _ejecutarAccion — no se necesita variable local
 
     return Card(
@@ -166,20 +173,20 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
         trailing: estado == 'activa'
             ? PopupMenuButton<String>(
                 tooltip: 'Acciones',
-                onSelected: (action) =>
-                    _ejecutarAccion(context, action, row),
+                onSelected: (action) => _ejecutarAccion(action, row),
                 itemBuilder: (_) => const [
                   PopupMenuItem(
-                      value: 'utilizar',
-                      child: Text('Utilizar provisión')),
+                    value: 'utilizar',
+                    child: Text('Utilizar provisión'),
+                  ),
                   PopupMenuItem(
-                      value: 'revertir',
-                      child: Text('Revertir provisión')),
+                    value: 'revertir',
+                    child: Text('Revertir provisión'),
+                  ),
                 ],
               )
             : Chip(
-                label: Text(estado,
-                    style: const TextStyle(fontSize: 11)),
+                label: Text(estado, style: const TextStyle(fontSize: 11)),
                 visualDensity: VisualDensity.compact,
               ),
         isThreeLine: false,
@@ -188,42 +195,36 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
   }
 
   Widget _estadoAvatar(String estado) => CircleAvatar(
-        backgroundColor: switch (estado) {
-          'activa' => MerkaThemeTokens.success,
-          'agotada' => MerkaThemeTokens.graphite600,
-          'revertida' => MerkaThemeTokens.danger,
-          _ => MerkaThemeTokens.warning,
-        },
-        child: Icon(
-          switch (estado) {
-            'activa' => Icons.check,
-            'agotada' => Icons.inventory_2,
-            'revertida' => Icons.undo,
-            _ => Icons.warning,
-          },
-          color: Colors.white,
-          size: 18,
-        ),
-      );
+    backgroundColor: switch (estado) {
+      'activa' => MerkaThemeTokens.success,
+      'agotada' => MerkaThemeTokens.graphite600,
+      'revertida' => MerkaThemeTokens.danger,
+      _ => MerkaThemeTokens.warning,
+    },
+    child: Icon(
+      switch (estado) {
+        'activa' => Icons.check,
+        'agotada' => Icons.inventory_2,
+        'revertida' => Icons.undo,
+        _ => Icons.warning,
+      },
+      color: Colors.white,
+      size: 18,
+    ),
+  );
 
   // ── Acciones ──────────────────────────────────────────────────────────────
 
-  Future<void> _ejecutarAccion(
-    BuildContext context,
-    String action,
-    Map<String, dynamic> row,
-  ) async {
+  Future<void> _ejecutarAccion(String action, Map<String, dynamic> row) async {
     if (action == 'utilizar') {
-      await _abrirUtilizar(context, row);
+      await _abrirUtilizar(row);
     } else if (action == 'revertir') {
-      await _confirmarRevertir(context, row);
+      await _confirmarRevertir(row);
     }
   }
 
-  Future<void> _abrirUtilizar(
-      BuildContext context, Map<String, dynamic> row) async {
-    final saldoDisp =
-        publicMoneyFromSql(row['saldo_disponible']);
+  Future<void> _abrirUtilizar(Map<String, dynamic> row) async {
+    final saldoDisp = publicMoneyFromSql(row['saldo_disponible']);
     final montoCtrl = TextEditingController();
     final motivoCtrl = TextEditingController();
 
@@ -240,8 +241,9 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
               const SizedBox(height: 10),
               TextField(
                 controller: montoCtrl,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 inputFormatters: [NumericInput.decimal],
                 decoration: const InputDecoration(
                   labelText: 'Monto a utilizar *',
@@ -263,8 +265,9 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(dlg, false),
-              child: const Text('Cancelar')),
+            onPressed: () => Navigator.pop(dlg, false),
+            child: const Text('Cancelar'),
+          ),
           FilledButton(
             onPressed: () => Navigator.pop(dlg, true),
             child: const Text('Utilizar'),
@@ -277,9 +280,10 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
     if (ok != true || _svc == null) return;
 
     final monto = publicMoneyFromMajor(
-        montoCtrl.text.replaceAll(',', '.').trim().isEmpty
-            ? '0'
-            : montoCtrl.text.replaceAll(',', '.').trim());
+      montoCtrl.text.replaceAll(',', '.').trim().isEmpty
+          ? '0'
+          : montoCtrl.text.replaceAll(',', '.').trim(),
+    );
     if (monto <= publicMoneyZero()) return;
 
     try {
@@ -313,8 +317,7 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
     }
   }
 
-  Future<void> _confirmarRevertir(
-      BuildContext context, Map<String, dynamic> row) async {
+  Future<void> _confirmarRevertir(Map<String, dynamic> row) async {
     final motivoCtrl = TextEditingController();
     final ok = await showDialog<bool>(
       context: context,
@@ -324,7 +327,8 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'Se revertirá el saldo disponible y se generará el asiento contable inverso.'),
+              'Se revertirá el saldo disponible y se generará el asiento contable inverso.',
+            ),
             const SizedBox(height: 10),
             TextField(
               controller: motivoCtrl,
@@ -339,11 +343,13 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(dlg, false),
-              child: const Text('Cancelar')),
+            onPressed: () => Navigator.pop(dlg, false),
+            child: const Text('Cancelar'),
+          ),
           FilledButton(
             style: FilledButton.styleFrom(
-                backgroundColor: MerkaThemeTokens.danger),
+              backgroundColor: MerkaThemeTokens.danger,
+            ),
             onPressed: () => Navigator.pop(dlg, true),
             child: const Text('Revertir'),
           ),
@@ -373,8 +379,10 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'),
-              backgroundColor: MerkaThemeTokens.danger),
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: MerkaThemeTokens.danger,
+          ),
         );
       }
     }
@@ -382,7 +390,7 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
 
   // ── Formulario nueva provisión ────────────────────────────────────────────
 
-  Future<void> _abrirFormulario(BuildContext context) async {
+  Future<void> _abrirFormulario() async {
     final descCtrl = TextEditingController();
     final valorCtrl = TextEditingController();
     final refCtrl = TextEditingController();
@@ -409,10 +417,12 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
                       isDense: true,
                     ),
                     items: TipoProvision.values
-                        .map((t) => DropdownMenuItem(
-                              value: t,
-                              child: Text(_tipoLabel(t)),
-                            ))
+                        .map(
+                          (t) => DropdownMenuItem(
+                            value: t,
+                            child: Text(_tipoLabel(t)),
+                          ),
+                        )
                         .toList(),
                     onChanged: (v) {
                       if (v != null) setDlg(() => tipo = v);
@@ -431,8 +441,9 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
                   const SizedBox(height: 10),
                   TextField(
                     controller: valorCtrl,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
                     inputFormatters: [NumericInput.decimal],
                     decoration: const InputDecoration(
                       labelText: 'Valor de la provisión *',
@@ -454,8 +465,9 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
                     onTap: () async {
                       final d = await showDatePicker(
                         context: ctx,
-                        initialDate: DateTime.now()
-                            .add(const Duration(days: 365)),
+                        initialDate: DateTime.now().add(
+                          const Duration(days: 365),
+                        ),
                         firstDate: DateTime.now(),
                         lastDate: DateTime(2040),
                       );
@@ -466,15 +478,14 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
                         labelText: 'Fecha de vencimiento (opcional)',
                         border: OutlineInputBorder(),
                         isDense: true,
-                        suffixIcon:
-                            Icon(Icons.calendar_today, size: 18),
+                        suffixIcon: Icon(Icons.calendar_today, size: 18),
                       ),
                       child: Text(
                         fechaVenc == null
                             ? 'Sin vencimiento'
                             : '${fechaVenc!.day.toString().padLeft(2, '0')}/'
-                                '${fechaVenc!.month.toString().padLeft(2, '0')}/'
-                                '${fechaVenc!.year}',
+                                  '${fechaVenc!.month.toString().padLeft(2, '0')}/'
+                                  '${fechaVenc!.year}',
                       ),
                     ),
                   ),
@@ -484,8 +495,9 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
           ),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(dlg, false),
-                child: const Text('Cancelar')),
+              onPressed: () => Navigator.pop(dlg, false),
+              child: const Text('Cancelar'),
+            ),
             FilledButton(
               onPressed: () => Navigator.pop(dlg, true),
               child: const Text('Crear provisión'),
@@ -500,9 +512,10 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
 
     if (ok != true || _svc == null) return;
     final valor = publicMoneyFromMajor(
-        valorCtrl.text.replaceAll(',', '.').trim().isEmpty
-            ? '0'
-            : valorCtrl.text.replaceAll(',', '.').trim());
+      valorCtrl.text.replaceAll(',', '.').trim().isEmpty
+          ? '0'
+          : valorCtrl.text.replaceAll(',', '.').trim(),
+    );
     if (valor <= publicMoneyZero()) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -524,15 +537,17 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
             : descCtrl.text.trim(),
         valorProvision: valor,
         fechaVencimiento: fechaVenc,
-        referenciaDocumento:
-            refCtrl.text.trim().isEmpty ? null : refCtrl.text.trim(),
+        referenciaDocumento: refCtrl.text.trim().isEmpty
+            ? null
+            : refCtrl.text.trim(),
       );
       _reload();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-                'Provisión creada. Asiento contable generado automáticamente.'),
+              'Provisión creada. Asiento contable generado automáticamente.',
+            ),
             backgroundColor: MerkaThemeTokens.success,
           ),
         );
@@ -541,19 +556,20 @@ class _ProvisionesNICSPPageState extends State<ProvisionesNICSPPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text('Error: $e'),
-              backgroundColor: MerkaThemeTokens.danger),
+            content: Text('Error: $e'),
+            backgroundColor: MerkaThemeTokens.danger,
+          ),
         );
       }
     }
   }
 
   String _tipoLabel(TipoProvision t) => switch (t) {
-        TipoProvision.litigios => 'Litigios',
-        TipoProvision.garantias => 'Garantías',
-        TipoProvision.beneficiosEmpleados => 'Beneficios a empleados',
-        TipoProvision.contratosOnerosos => 'Contratos onerosos',
-        TipoProvision.perdidasOperacionales => 'Pérdidas operacionales',
-        TipoProvision.otros => 'Otros',
-      };
+    TipoProvision.litigios => 'Litigios',
+    TipoProvision.garantias => 'Garantías',
+    TipoProvision.beneficiosEmpleados => 'Beneficios a empleados',
+    TipoProvision.contratosOnerosos => 'Contratos onerosos',
+    TipoProvision.perdidasOperacionales => 'Pérdidas operacionales',
+    TipoProvision.otros => 'Otros',
+  };
 }

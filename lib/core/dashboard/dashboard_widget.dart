@@ -80,20 +80,36 @@ class DashboardWidget {
   }
 
   factory DashboardWidget.fromJson(Map<String, dynamic> json) {
+    final type = DashboardWidgetType.values.firstWhere(
+      (e) => e.name == json['type'],
+      orElse: () => DashboardWidgetType.salesToday,
+    );
     return DashboardWidget(
       id: json['id'] as String,
-      type: DashboardWidgetType.values.firstWhere(
-        (e) => e.name == json['type'],
-        orElse: () => DashboardWidgetType.salesToday,
-      ),
+      type: type,
       title: json['title'] as String,
-      icon: IconData(json['icon'] as int, fontFamily: 'MaterialIcons'),
+      icon: iconForType(type),
       rowSpan: json['rowSpan'] as int? ?? 1,
       colSpan: json['colSpan'] as int? ?? 1,
       position: json['position'] as int,
       isEnabled: json['isEnabled'] as bool? ?? true,
       config: json['config'] as Map<String, dynamic>? ?? {},
     );
+  }
+
+  static IconData iconForType(DashboardWidgetType type) {
+    return switch (type) {
+      DashboardWidgetType.salesToday => Icons.trending_up,
+      DashboardWidgetType.topProducts => Icons.star,
+      DashboardWidgetType.lowStockAlerts => Icons.warning,
+      DashboardWidgetType.cashFlow => Icons.account_balance_wallet,
+      DashboardWidgetType.frequentCustomers => Icons.people,
+      DashboardWidgetType.upcomingExpirations => Icons.event,
+      DashboardWidgetType.goalsVsActual => Icons.flag,
+      DashboardWidgetType.pendingOrders => Icons.pending_actions,
+      DashboardWidgetType.accountsReceivable => Icons.request_quote,
+      DashboardWidgetType.accountsPayable => Icons.payments,
+    };
   }
 
   static List<DashboardWidget> getDefaultWidgets() {

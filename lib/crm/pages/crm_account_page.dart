@@ -28,8 +28,7 @@ class _CrmAccountsPageState extends State<CrmAccountsPage> {
 
   bool get _canCreate =>
       AppSession.puedeEjecutarAccion('crm', AppAction.create);
-  bool get _canEdit =>
-      AppSession.puedeEjecutarAccion('crm', AppAction.update);
+  bool get _canEdit => AppSession.puedeEjecutarAccion('crm', AppAction.update);
 
   @override
   void initState() {
@@ -95,22 +94,29 @@ class _CrmAccountsPageState extends State<CrmAccountsPage> {
           final accounts = _search.isEmpty
               ? all
               : all
-                  .where((a) =>
-                      a.name.toLowerCase().contains(_search) ||
-                      (a.email ?? '').toLowerCase().contains(_search) ||
-                      (a.document ?? '').toLowerCase().contains(_search))
-                  .toList();
+                    .where(
+                      (a) =>
+                          a.name.toLowerCase().contains(_search) ||
+                          (a.email ?? '').toLowerCase().contains(_search) ||
+                          (a.document ?? '').toLowerCase().contains(_search),
+                    )
+                    .toList();
           if (accounts.isEmpty) {
             return Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.business_center_outlined,
-                      size: 56, color: MerkaThemeTokens.graphite600),
+                  Icon(
+                    Icons.business_center_outlined,
+                    size: 56,
+                    color: MerkaThemeTokens.graphite600,
+                  ),
                   const SizedBox(height: 12),
-                  Text(_search.isEmpty
-                      ? 'Sin cuentas CRM'
-                      : 'Sin resultados para "$_search"'),
+                  Text(
+                    _search.isEmpty
+                        ? 'Sin cuentas CRM'
+                        : 'Sin resultados para "$_search"',
+                  ),
                   if (_canCreate && _search.isEmpty) ...[
                     const SizedBox(height: 8),
                     TextButton.icon(
@@ -169,9 +175,10 @@ class _CrmAccountsPageState extends State<CrmAccountsPage> {
   }
 
   Future<void> _openAccountForm(
-      BuildContext context, CrmAccount? existing) async {
-    final companyId =
-        await DatabaseHelper.instance.obtenerEmpresaActivaId();
+    BuildContext context,
+    CrmAccount? existing,
+  ) async {
+    final companyId = await DatabaseHelper.instance.obtenerEmpresaActivaId();
     if (!context.mounted) return;
     final saved = await showDialog<bool>(
       context: context,
@@ -249,8 +256,11 @@ class _AccountFormDialogState extends State<_AccountFormDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _field('Nombre *', _nameCtrl),
-              _field('Correo electrónico', _emailCtrl,
-                  type: TextInputType.emailAddress),
+              _field(
+                'Correo electrónico',
+                _emailCtrl,
+                type: TextInputType.emailAddress,
+              ),
               _field('Teléfono', _phoneCtrl, type: TextInputType.phone),
               _field('Documento / NIT', _docCtrl),
               _field('Dirección', _addressCtrl),
@@ -264,8 +274,7 @@ class _AccountFormDialogState extends State<_AccountFormDialog> {
                 ),
                 items: const [
                   DropdownMenuItem(value: 'activo', child: Text('Activo')),
-                  DropdownMenuItem(
-                      value: 'inactivo', child: Text('Inactivo')),
+                  DropdownMenuItem(value: 'inactivo', child: Text('Inactivo')),
                 ],
                 onChanged: (v) {
                   if (v != null) setState(() => _status = v);
@@ -273,9 +282,13 @@ class _AccountFormDialogState extends State<_AccountFormDialog> {
               ),
               if (_error != null) ...[
                 const SizedBox(height: 8),
-                Text(_error!,
-                    style: const TextStyle(
-                        color: MerkaThemeTokens.danger, fontSize: 12)),
+                Text(
+                  _error!,
+                  style: const TextStyle(
+                    color: MerkaThemeTokens.danger,
+                    fontSize: 12,
+                  ),
+                ),
               ],
             ],
           ),
@@ -292,27 +305,30 @@ class _AccountFormDialogState extends State<_AccountFormDialog> {
               ? const SizedBox(
                   width: 18,
                   height: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2))
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
               : Text(isEdit ? 'Actualizar' : 'Crear'),
         ),
       ],
     );
   }
 
-  Widget _field(String label, TextEditingController ctrl,
-      {TextInputType type = TextInputType.text}) =>
-      Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: TextField(
-          controller: ctrl,
-          keyboardType: type,
-          decoration: InputDecoration(
-            labelText: label,
-            border: const OutlineInputBorder(),
-            isDense: true,
-          ),
-        ),
-      );
+  Widget _field(
+    String label,
+    TextEditingController ctrl, {
+    TextInputType type = TextInputType.text,
+  }) => Padding(
+    padding: const EdgeInsets.only(bottom: 8),
+    child: TextField(
+      controller: ctrl,
+      keyboardType: type,
+      decoration: InputDecoration(
+        labelText: label,
+        border: const OutlineInputBorder(),
+        isDense: true,
+      ),
+    ),
+  );
 
   Future<void> _submit() async {
     if (_nameCtrl.text.trim().isEmpty) {
@@ -328,12 +344,9 @@ class _AccountFormDialogState extends State<_AccountFormDialog> {
         id: widget.existing?.id,
         companyId: widget.companyId,
         name: _nameCtrl.text.trim(),
-        email:
-            _emailCtrl.text.trim().isEmpty ? null : _emailCtrl.text.trim(),
-        phone:
-            _phoneCtrl.text.trim().isEmpty ? null : _phoneCtrl.text.trim(),
-        document:
-            _docCtrl.text.trim().isEmpty ? null : _docCtrl.text.trim(),
+        email: _emailCtrl.text.trim().isEmpty ? null : _emailCtrl.text.trim(),
+        phone: _phoneCtrl.text.trim().isEmpty ? null : _phoneCtrl.text.trim(),
+        document: _docCtrl.text.trim().isEmpty ? null : _docCtrl.text.trim(),
         address: _addressCtrl.text.trim().isEmpty
             ? null
             : _addressCtrl.text.trim(),
@@ -467,8 +480,7 @@ class _CrmAccountPageState extends State<CrmAccountPage> {
   // ── Formulario de nuevo contacto ──────────────────────────────────────────
 
   Future<void> _openContactForm(BuildContext context) async {
-    final companyId =
-        await DatabaseHelper.instance.obtenerEmpresaActivaId();
+    final companyId = await DatabaseHelper.instance.obtenerEmpresaActivaId();
     if (!context.mounted) return;
     final saved = await showDialog<bool>(
       context: context,
@@ -506,6 +518,7 @@ class _ContactFormDialog extends StatefulWidget {
     required this.companyId,
     required this.accountId,
     required this.service,
+    // ignore: unused_element_parameter
     this.existing,
   });
 
@@ -567,16 +580,22 @@ class _ContactFormDialogState extends State<_ContactFormDialog> {
                   Expanded(child: _field('Apellido', _lastCtrl)),
                 ],
               ),
-              _field('Correo electrónico', _emailCtrl,
-                  type: TextInputType.emailAddress),
-              _field('Teléfono móvil', _mobileCtrl,
-                  type: TextInputType.phone),
+              _field(
+                'Correo electrónico',
+                _emailCtrl,
+                type: TextInputType.emailAddress,
+              ),
+              _field('Teléfono móvil', _mobileCtrl, type: TextInputType.phone),
               _field('Rol / cargo', _roleCtrl),
               if (_error != null) ...[
                 const SizedBox(height: 6),
-                Text(_error!,
-                    style: const TextStyle(
-                        color: MerkaThemeTokens.danger, fontSize: 12)),
+                Text(
+                  _error!,
+                  style: const TextStyle(
+                    color: MerkaThemeTokens.danger,
+                    fontSize: 12,
+                  ),
+                ),
               ],
             ],
           ),
@@ -584,35 +603,39 @@ class _ContactFormDialogState extends State<_ContactFormDialog> {
       ),
       actions: [
         TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancelar')),
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Cancelar'),
+        ),
         FilledButton(
           onPressed: _saving ? null : _submit,
           child: _saving
               ? const SizedBox(
                   width: 18,
                   height: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2))
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
               : const Text('Guardar'),
         ),
       ],
     );
   }
 
-  Widget _field(String label, TextEditingController ctrl,
-      {TextInputType type = TextInputType.text}) =>
-      Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: TextField(
-          controller: ctrl,
-          keyboardType: type,
-          decoration: InputDecoration(
-            labelText: label,
-            border: const OutlineInputBorder(),
-            isDense: true,
-          ),
-        ),
-      );
+  Widget _field(
+    String label,
+    TextEditingController ctrl, {
+    TextInputType type = TextInputType.text,
+  }) => Padding(
+    padding: const EdgeInsets.only(bottom: 8),
+    child: TextField(
+      controller: ctrl,
+      keyboardType: type,
+      decoration: InputDecoration(
+        labelText: label,
+        border: const OutlineInputBorder(),
+        isDense: true,
+      ),
+    ),
+  );
 
   Future<void> _submit() async {
     if (_firstCtrl.text.trim().isEmpty) {
@@ -631,10 +654,12 @@ class _ContactFormDialogState extends State<_ContactFormDialog> {
         firstName: _firstCtrl.text.trim(),
         lastName: _lastCtrl.text.trim(),
         email: _emailCtrl.text.trim().isEmpty ? null : _emailCtrl.text.trim(),
-        phoneMobile:
-            _mobileCtrl.text.trim().isEmpty ? null : _mobileCtrl.text.trim(),
-        opportunityRole:
-            _roleCtrl.text.trim().isEmpty ? null : _roleCtrl.text.trim(),
+        phoneMobile: _mobileCtrl.text.trim().isEmpty
+            ? null
+            : _mobileCtrl.text.trim(),
+        opportunityRole: _roleCtrl.text.trim().isEmpty
+            ? null
+            : _roleCtrl.text.trim(),
       );
       if (widget.existing == null) {
         await widget.service.create(contact);

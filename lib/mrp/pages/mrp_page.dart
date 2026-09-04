@@ -306,7 +306,7 @@ class _MrpPageState extends State<MrpPage> with SingleTickerProviderStateMixin {
               heroTag: 'mrp_new_order',
               icon: const Icon(Icons.add),
               label: const Text('Nueva orden'),
-              onPressed: () => _showNewOrderDialog(context),
+              onPressed: _showNewOrderDialog,
             ),
           ),
         ],
@@ -509,14 +509,16 @@ class _MrpPageState extends State<MrpPage> with SingleTickerProviderStateMixin {
     );
   }
 
-  Future<void> _showNewOrderDialog(BuildContext context) async {
+  Future<void> _showNewOrderDialog() async {
     final context2 = MrpRepositoryContext();
     final boms = await _bomService.list();
     if (!mounted) return;
     if (boms.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Crea al menos una BOM antes de lanzar una orden de producción.'),
+          content: Text(
+            'Crea al menos una BOM antes de lanzar una orden de producción.',
+          ),
         ),
       );
       return;
@@ -550,13 +552,15 @@ class _MrpPageState extends State<MrpPage> with SingleTickerProviderStateMixin {
                     ),
                     isExpanded: true,
                     items: boms
-                        .map((b) => DropdownMenuItem(
-                              value: b.id,
-                              child: Text(
-                                'BOM #${b.id} — Producto #${b.itemId}',
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ))
+                        .map(
+                          (b) => DropdownMenuItem(
+                            value: b.id,
+                            child: Text(
+                              'BOM #${b.id} — Producto #${b.itemId}',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        )
                         .toList(),
                     onChanged: (v) {
                       if (v != null) setDlg(() => selectedBomId = v);
@@ -579,7 +583,9 @@ class _MrpPageState extends State<MrpPage> with SingleTickerProviderStateMixin {
                     onTap: () async {
                       final d = await showDatePicker(
                         context: ctx,
-                        initialDate: DateTime.now().add(const Duration(days: 7)),
+                        initialDate: DateTime.now().add(
+                          const Duration(days: 7),
+                        ),
                         firstDate: DateTime.now(),
                         lastDate: DateTime(2030),
                       );
@@ -596,8 +602,8 @@ class _MrpPageState extends State<MrpPage> with SingleTickerProviderStateMixin {
                         plannedEnd == null
                             ? 'Sin fecha'
                             : '${plannedEnd!.day.toString().padLeft(2, '0')}/'
-                                '${plannedEnd!.month.toString().padLeft(2, '0')}/'
-                                '${plannedEnd!.year}',
+                                  '${plannedEnd!.month.toString().padLeft(2, '0')}/'
+                                  '${plannedEnd!.year}',
                       ),
                     ),
                   ),
@@ -626,21 +632,22 @@ class _MrpPageState extends State<MrpPage> with SingleTickerProviderStateMixin {
                       wipWarehouseId: 1,
                       fgWarehouseId: 1,
                       totalCost: bom.totalCost.multiplyDecimal(qty.toString()),
-                      rawMaterialCost:
-                          bom.rawMaterialCost.multiplyDecimal(qty.toString()),
-                      plannedOperatingCost:
-                          bom.operatingCost.multiplyDecimal(qty.toString()),
-                      actualOperatingCost:
-                          bom.totalCost.multiplyDecimal('0'),
+                      rawMaterialCost: bom.rawMaterialCost.multiplyDecimal(
+                        qty.toString(),
+                      ),
+                      plannedOperatingCost: bom.operatingCost.multiplyDecimal(
+                        qty.toString(),
+                      ),
+                      actualOperatingCost: bom.totalCost.multiplyDecimal('0'),
                       plannedEndDate: plannedEnd,
                     ),
                   );
                   if (dlgCtx.mounted) Navigator.pop(dlgCtx, true);
                 } catch (e) {
                   if (dlgCtx.mounted) {
-                    ScaffoldMessenger.of(dlgCtx).showSnackBar(
-                      SnackBar(content: Text('Error: $e')),
-                    );
+                    ScaffoldMessenger.of(
+                      dlgCtx,
+                    ).showSnackBar(SnackBar(content: Text('Error: $e')));
                   }
                 }
               },

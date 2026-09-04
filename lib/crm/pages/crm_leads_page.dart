@@ -41,11 +41,12 @@ class _CrmLeadsPageState extends State<CrmLeadsPage> {
   Future<_LeadsData> _load() async {
     final db = await DatabaseHelper.instance.database;
     final companyId = await DatabaseHelper.instance.obtenerEmpresaActivaId();
-    final currency =
-        await MoneyCurrencyResolver.resolve(db, companyId: companyId);
+    final currency = await MoneyCurrencyResolver.resolve(
+      db,
+      companyId: companyId,
+    );
     final leads = await _service.list();
-    return _LeadsData(
-        companyId: companyId, currency: currency, leads: leads);
+    return _LeadsData(companyId: companyId, currency: currency, leads: leads);
   }
 
   void _reload() => setState(() => _data = _load());
@@ -57,9 +58,10 @@ class _CrmLeadsPageState extends State<CrmLeadsPage> {
         title: const Text('CRM — Leads'),
         actions: [
           IconButton(
-              tooltip: 'Actualizar',
-              icon: const Icon(Icons.refresh),
-              onPressed: _reload),
+            tooltip: 'Actualizar',
+            icon: const Icon(Icons.refresh),
+            onPressed: _reload,
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -83,8 +85,11 @@ class _CrmLeadsPageState extends State<CrmLeadsPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.person_search,
-                      size: 56, color: MerkaThemeTokens.graphite600),
+                  Icon(
+                    Icons.person_search,
+                    size: 56,
+                    color: MerkaThemeTokens.graphite600,
+                  ),
                   const SizedBox(height: 12),
                   const Text('Sin leads registrados'),
                   const SizedBox(height: 8),
@@ -100,17 +105,15 @@ class _CrmLeadsPageState extends State<CrmLeadsPage> {
           return ListView.separated(
             padding: const EdgeInsets.all(12),
             itemCount: leads.length,
-            separatorBuilder: (_, __) => const Divider(height: 1),
-            itemBuilder: (context, i) =>
-                _leadTile(context, leads[i], data),
+            separatorBuilder: (_, _) => const Divider(height: 1),
+            itemBuilder: (context, i) => _leadTile(context, leads[i], data),
           );
         },
       ),
     );
   }
 
-  Widget _leadTile(
-      BuildContext context, CrmLead lead, _LeadsData data) {
+  Widget _leadTile(BuildContext context, CrmLead lead, _LeadsData data) {
     final converted = lead.converted;
     return ListTile(
       leading: CircleAvatar(
@@ -144,12 +147,12 @@ class _CrmLeadsPageState extends State<CrmLeadsPage> {
   }
 
   Color _statusColor(String status) => switch (status) {
-        'nuevo' => MerkaThemeTokens.navy700,
-        'contactado' => MerkaThemeTokens.gold500,
-        'calificado' => MerkaThemeTokens.success,
-        'descartado' || 'rechazado' => MerkaThemeTokens.danger,
-        _ => MerkaThemeTokens.graphite600,
-      };
+    'nuevo' => MerkaThemeTokens.navy700,
+    'contactado' => MerkaThemeTokens.gold500,
+    'calificado' => MerkaThemeTokens.success,
+    'descartado' || 'rechazado' => MerkaThemeTokens.danger,
+    _ => MerkaThemeTokens.graphite600,
+  };
 
   Future<void> _openNewLead(BuildContext context) async {
     final saved = await showDialog<bool>(
@@ -160,7 +163,10 @@ class _CrmLeadsPageState extends State<CrmLeadsPage> {
   }
 
   Future<void> _openConvert(
-      BuildContext context, CrmLead lead, _LeadsData data) async {
+    BuildContext context,
+    CrmLead lead,
+    _LeadsData data,
+  ) async {
     final converted = await showDialog<bool>(
       context: context,
       builder: (_) => _ConvertLeadDialog(
@@ -215,28 +221,32 @@ class _NewLeadDialogState extends State<_NewLeadDialog> {
             TextField(
               controller: _nameCtrl,
               decoration: const InputDecoration(
-                  labelText: 'Empresa / nombre *',
-                  border: OutlineInputBorder(),
-                  isDense: true),
+                labelText: 'Empresa / nombre *',
+                border: OutlineInputBorder(),
+                isDense: true,
+              ),
             ),
             const SizedBox(height: 10),
             TextField(
               controller: _amountCtrl,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               inputFormatters: [NumericInput.decimal],
               decoration: const InputDecoration(
-                  labelText: 'Monto estimado',
-                  border: OutlineInputBorder(),
-                  isDense: true),
+                labelText: 'Monto estimado',
+                border: OutlineInputBorder(),
+                isDense: true,
+              ),
             ),
             const SizedBox(height: 10),
             DropdownButtonFormField<String>(
               value: _source,
               decoration: const InputDecoration(
-                  labelText: 'Fuente',
-                  border: OutlineInputBorder(),
-                  isDense: true),
+                labelText: 'Fuente',
+                border: OutlineInputBorder(),
+                isDense: true,
+              ),
               items: const [
                 DropdownMenuItem(value: 'web', child: Text('Web')),
                 DropdownMenuItem(value: 'referido', child: Text('Referido')),
@@ -250,24 +260,30 @@ class _NewLeadDialogState extends State<_NewLeadDialog> {
             ),
             if (_error != null) ...[
               const SizedBox(height: 8),
-              Text(_error!,
-                  style: const TextStyle(
-                      color: MerkaThemeTokens.danger, fontSize: 12)),
+              Text(
+                _error!,
+                style: const TextStyle(
+                  color: MerkaThemeTokens.danger,
+                  fontSize: 12,
+                ),
+              ),
             ],
           ],
         ),
       ),
       actions: [
         TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancelar')),
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Cancelar'),
+        ),
         FilledButton(
           onPressed: _saving ? null : _submit,
           child: _saving
               ? const SizedBox(
                   width: 18,
                   height: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2))
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
               : const Text('Crear'),
         ),
       ],
@@ -285,21 +301,23 @@ class _NewLeadDialogState extends State<_NewLeadDialog> {
     });
     try {
       final db = await DatabaseHelper.instance.database;
-      final companyId =
-          await DatabaseHelper.instance.obtenerEmpresaActivaId();
-      final currency =
-          await MoneyCurrencyResolver.resolve(db, companyId: companyId);
-      final amountStr =
-          _amountCtrl.text.trim().replaceAll(',', '.').isEmpty
-              ? '0'
-              : _amountCtrl.text.trim().replaceAll(',', '.');
+      final companyId = await DatabaseHelper.instance.obtenerEmpresaActivaId();
+      final currency = await MoneyCurrencyResolver.resolve(
+        db,
+        companyId: companyId,
+      );
+      final amountStr = _amountCtrl.text.trim().replaceAll(',', '.').isEmpty
+          ? '0'
+          : _amountCtrl.text.trim().replaceAll(',', '.');
       await widget.service.create(
         CrmLead(
           companyId: companyId,
           accountName: _nameCtrl.text.trim(),
           leadSource: _source,
-          opportunityAmount:
-              MoneyValue.fromMajorUnits(amountStr, currency: currency),
+          opportunityAmount: MoneyValue.fromMajorUnits(
+            amountStr,
+            currency: currency,
+          ),
         ),
       );
       if (!mounted) return;
@@ -351,10 +369,8 @@ class _ConvertLeadDialogState extends State<_ConvertLeadDialog> {
   @override
   void initState() {
     super.initState();
-    _accountCtrl =
-        TextEditingController(text: widget.lead.accountName ?? '');
-    _oppNameCtrl.text =
-        'Oportunidad — ${widget.lead.accountName ?? 'Lead'}';
+    _accountCtrl = TextEditingController(text: widget.lead.accountName ?? '');
+    _oppNameCtrl.text = 'Oportunidad — ${widget.lead.accountName ?? 'Lead'}';
     _amountCtrl.text = widget.lead.opportunityAmount.toMajorUnitsString();
   }
 
@@ -379,13 +395,17 @@ class _ConvertLeadDialogState extends State<_ConvertLeadDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Cuenta nueva',
-                  style: TextStyle(fontWeight: FontWeight.w600)),
+              const Text(
+                'Cuenta nueva',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 6),
               _field('Nombre de la cuenta *', _accountCtrl),
               const SizedBox(height: 10),
-              const Text('Contacto',
-                  style: TextStyle(fontWeight: FontWeight.w600)),
+              const Text(
+                'Contacto',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 6),
               Row(
                 children: [
@@ -395,17 +415,26 @@ class _ConvertLeadDialogState extends State<_ConvertLeadDialog> {
                 ],
               ),
               const SizedBox(height: 10),
-              const Text('Oportunidad',
-                  style: TextStyle(fontWeight: FontWeight.w600)),
+              const Text(
+                'Oportunidad',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 6),
               _field('Nombre oportunidad *', _oppNameCtrl),
-              _field('Monto (${widget.currency.code})', _amountCtrl,
-                  type: const TextInputType.numberWithOptions(decimal: true)),
+              _field(
+                'Monto (${widget.currency.code})',
+                _amountCtrl,
+                type: const TextInputType.numberWithOptions(decimal: true),
+              ),
               if (_error != null) ...[
                 const SizedBox(height: 8),
-                Text(_error!,
-                    style: const TextStyle(
-                        color: MerkaThemeTokens.danger, fontSize: 12)),
+                Text(
+                  _error!,
+                  style: const TextStyle(
+                    color: MerkaThemeTokens.danger,
+                    fontSize: 12,
+                  ),
+                ),
               ],
             ],
           ),
@@ -413,14 +442,16 @@ class _ConvertLeadDialogState extends State<_ConvertLeadDialog> {
       ),
       actions: [
         TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancelar')),
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Cancelar'),
+        ),
         FilledButton.icon(
           icon: _saving
               ? const SizedBox(
                   width: 16,
                   height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2))
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
               : const Icon(Icons.transform, size: 16),
           label: const Text('Convertir'),
           onPressed: _saving ? null : _submit,
@@ -429,24 +460,26 @@ class _ConvertLeadDialogState extends State<_ConvertLeadDialog> {
     );
   }
 
-  Widget _field(String label, TextEditingController ctrl,
-      {TextInputType type = TextInputType.text}) =>
-      Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: TextField(
-          controller: ctrl,
-          keyboardType: type,
-          inputFormatters:
-              type == const TextInputType.numberWithOptions(decimal: true)
-                  ? [NumericInput.decimal]
-                  : null,
-          decoration: InputDecoration(
-            labelText: label,
-            border: const OutlineInputBorder(),
-            isDense: true,
-          ),
-        ),
-      );
+  Widget _field(
+    String label,
+    TextEditingController ctrl, {
+    TextInputType type = TextInputType.text,
+  }) => Padding(
+    padding: const EdgeInsets.only(bottom: 8),
+    child: TextField(
+      controller: ctrl,
+      keyboardType: type,
+      inputFormatters:
+          type == const TextInputType.numberWithOptions(decimal: true)
+          ? [NumericInput.decimal]
+          : null,
+      decoration: InputDecoration(
+        labelText: label,
+        border: const OutlineInputBorder(),
+        isDense: true,
+      ),
+    ),
+  );
 
   Future<void> _submit() async {
     if (_accountCtrl.text.trim().isEmpty) {
@@ -466,12 +499,13 @@ class _ConvertLeadDialogState extends State<_ConvertLeadDialog> {
       _error = null;
     });
     try {
-      final amountStr =
-          _amountCtrl.text.trim().replaceAll(',', '.').isEmpty
-              ? '0'
-              : _amountCtrl.text.trim().replaceAll(',', '.');
+      final amountStr = _amountCtrl.text.trim().replaceAll(',', '.').isEmpty
+          ? '0'
+          : _amountCtrl.text.trim().replaceAll(',', '.');
       final amount = MoneyValue.fromMajorUnits(
-          amountStr, currency: widget.currency);
+        amountStr,
+        currency: widget.currency,
+      );
 
       final account = CrmAccount(
         companyId: widget.companyId,
@@ -493,8 +527,7 @@ class _ConvertLeadDialogState extends State<_ConvertLeadDialog> {
         name: _oppNameCtrl.text.trim(),
         amount: amount,
         salesStage: CrmSalesStage.qualification,
-        nextFollowUpAt:
-            DateTime.now().add(const Duration(days: 7)),
+        nextFollowUpAt: DateTime.now().add(const Duration(days: 7)),
       );
 
       await widget.leadService.convert(
@@ -508,7 +541,9 @@ class _ConvertLeadDialogState extends State<_ConvertLeadDialog> {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Lead convertido — cuenta, contacto y oportunidad creados.'),
+            content: Text(
+              'Lead convertido — cuenta, contacto y oportunidad creados.',
+            ),
             backgroundColor: MerkaThemeTokens.success,
           ),
         );
@@ -524,10 +559,11 @@ class _ConvertLeadDialogState extends State<_ConvertLeadDialog> {
 
 // ─────────────────────────────────────────────────────────────────────────────
 class _LeadsData {
-  const _LeadsData(
-      {required this.companyId,
-      required this.currency,
-      required this.leads});
+  const _LeadsData({
+    required this.companyId,
+    required this.currency,
+    required this.leads,
+  });
 
   final int companyId;
   final Currency currency;

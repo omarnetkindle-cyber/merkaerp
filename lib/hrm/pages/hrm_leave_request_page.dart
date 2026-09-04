@@ -66,9 +66,7 @@ class _HrmLeaveRequestPageState extends State<HrmLeaveRequestPage> {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
+          return Center(child: Text('Error: ${snapshot.error}'));
         }
         final data = snapshot.data!;
         return _buildBody(context, data);
@@ -88,8 +86,8 @@ class _HrmLeaveRequestPageState extends State<HrmLeaveRequestPage> {
                 child: Text(
                   'Solicitudes de ausencia',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               FilledButton.icon(
@@ -108,8 +106,11 @@ class _HrmLeaveRequestPageState extends State<HrmLeaveRequestPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.event_available,
-                          size: 56, color: MerkaThemeTokens.graphite600),
+                      const Icon(
+                        Icons.event_available,
+                        size: 56,
+                        color: MerkaThemeTokens.graphite600,
+                      ),
                       const SizedBox(height: 12),
                       const Text('No hay solicitudes pendientes.'),
                       const SizedBox(height: 8),
@@ -124,7 +125,7 @@ class _HrmLeaveRequestPageState extends State<HrmLeaveRequestPage> {
               : ListView.separated(
                   padding: const EdgeInsets.all(12),
                   itemCount: data.pending.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
+                  separatorBuilder: (_, _) => const Divider(height: 1),
                   itemBuilder: (context, i) =>
                       _requestTile(context, data.pending[i], data),
                 ),
@@ -140,8 +141,12 @@ class _HrmLeaveRequestPageState extends State<HrmLeaveRequestPage> {
   ) {
     final employeeName = row['employee_name']?.toString() ?? 'Empleado';
     final typeName = row['leave_type_name']?.toString() ?? '-';
-    final startDate = _shortDate(row['start_date']?.toString() ?? row['date_applied']?.toString() ?? '');
-    final endDate = _shortDate(row['end_date']?.toString() ?? row['date_applied']?.toString() ?? '');
+    final startDate = _shortDate(
+      row['start_date']?.toString() ?? row['date_applied']?.toString() ?? '',
+    );
+    final endDate = _shortDate(
+      row['end_date']?.toString() ?? row['date_applied']?.toString() ?? '',
+    );
     final status = row['status']?.toString() ?? 'pendiente';
     final leaveId = (row['id'] as num).toInt();
     final comments = row['comments']?.toString() ?? '';
@@ -164,7 +169,9 @@ class _HrmLeaveRequestPageState extends State<HrmLeaveRequestPage> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                    color: MerkaThemeTokens.graphite600, fontSize: 12),
+                  color: MerkaThemeTokens.graphite600,
+                  fontSize: 12,
+                ),
               ),
           ],
         ),
@@ -195,17 +202,17 @@ class _HrmLeaveRequestPageState extends State<HrmLeaveRequestPage> {
   Widget _statusIcon(String status) {
     return switch (status) {
       'aprobado' => const CircleAvatar(
-          backgroundColor: MerkaThemeTokens.success,
-          child: Icon(Icons.check, color: Colors.white, size: 18),
-        ),
+        backgroundColor: MerkaThemeTokens.success,
+        child: Icon(Icons.check, color: Colors.white, size: 18),
+      ),
       'rechazado' => const CircleAvatar(
-          backgroundColor: MerkaThemeTokens.danger,
-          child: Icon(Icons.close, color: Colors.white, size: 18),
-        ),
+        backgroundColor: MerkaThemeTokens.danger,
+        child: Icon(Icons.close, color: Colors.white, size: 18),
+      ),
       _ => const CircleAvatar(
-          backgroundColor: MerkaThemeTokens.warning,
-          child: Icon(Icons.hourglass_top, color: Colors.white, size: 18),
-        ),
+        backgroundColor: MerkaThemeTokens.warning,
+        child: Icon(Icons.hourglass_top, color: Colors.white, size: 18),
+      ),
     };
   }
 
@@ -221,12 +228,11 @@ class _HrmLeaveRequestPageState extends State<HrmLeaveRequestPage> {
     required Color color,
     required String tooltip,
     required VoidCallback onTap,
-  }) =>
-      IconButton(
-        tooltip: tooltip,
-        icon: Icon(icon, color: color),
-        onPressed: onTap,
-      );
+  }) => IconButton(
+    tooltip: tooltip,
+    icon: Icon(icon, color: color),
+    onPressed: onTap,
+  );
 
   // ── Aprobar/Rechazar (delega al servicio existente) ────────────────────────
 
@@ -260,7 +266,10 @@ class _HrmLeaveRequestPageState extends State<HrmLeaveRequestPage> {
     }
     try {
       await _leaveSvc.reject(
-          leaveId: leaveId, rejectedBy: actor, reason: reason);
+        leaveId: leaveId,
+        rejectedBy: actor,
+        reason: reason,
+      );
       _reload();
       if (mounted) _snack('Solicitud rechazada.', ok: false);
     } catch (e) {
@@ -313,8 +322,8 @@ class _HrmLeaveRequestPageState extends State<HrmLeaveRequestPage> {
         backgroundColor: ok == true
             ? MerkaThemeTokens.success
             : ok == false
-                ? MerkaThemeTokens.danger
-                : null,
+            ? MerkaThemeTokens.danger
+            : null,
       ),
     );
   }
@@ -362,10 +371,9 @@ class _NewRequestDialogState extends State<_NewRequestDialog> {
     super.dispose();
   }
 
-  int get _days =>
-      _endDate.isBefore(_startDate)
-          ? 0
-          : _endDate.difference(_startDate).inDays + 1;
+  int get _days => _endDate.isBefore(_startDate)
+      ? 0
+      : _endDate.difference(_startDate).inDays + 1;
 
   @override
   Widget build(BuildContext context) {
@@ -388,10 +396,12 @@ class _NewRequestDialogState extends State<_NewRequestDialog> {
                 ),
                 isExpanded: true,
                 items: widget.employees
-                    .map((e) => DropdownMenuItem(
-                          value: e.id,
-                          child: Text(e.name, overflow: TextOverflow.ellipsis),
-                        ))
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e.id,
+                        child: Text(e.name, overflow: TextOverflow.ellipsis),
+                      ),
+                    )
                     .toList(),
                 onChanged: (v) {
                   if (v != null) setState(() => _employeeId = v);
@@ -408,10 +418,12 @@ class _NewRequestDialogState extends State<_NewRequestDialog> {
                 ),
                 isExpanded: true,
                 items: widget.leaveTypes
-                    .map((t) => DropdownMenuItem(
-                          value: t.id,
-                          child: Text(t.name, overflow: TextOverflow.ellipsis),
-                        ))
+                    .map(
+                      (t) => DropdownMenuItem(
+                        value: t.id,
+                        child: Text(t.name, overflow: TextOverflow.ellipsis),
+                      ),
+                    )
                     .toList(),
                 onChanged: (v) {
                   if (v != null) setState(() => _leaveTypeId = v);
@@ -425,8 +437,7 @@ class _NewRequestDialogState extends State<_NewRequestDialog> {
                     child: _DateField(
                       label: 'Fecha inicio *',
                       value: _startDate,
-                      onChanged: (d) =>
-                          setState(() => _startDate = d),
+                      onChanged: (d) => setState(() => _startDate = d),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -435,8 +446,7 @@ class _NewRequestDialogState extends State<_NewRequestDialog> {
                       label: 'Fecha fin *',
                       value: _endDate,
                       firstDate: _startDate,
-                      onChanged: (d) =>
-                          setState(() => _endDate = d),
+                      onChanged: (d) => setState(() => _endDate = d),
                     ),
                   ),
                 ],
@@ -446,14 +456,17 @@ class _NewRequestDialogState extends State<_NewRequestDialog> {
                 Text(
                   '$_days día${_days == 1 ? '' : 's'}',
                   style: const TextStyle(
-                      color: MerkaThemeTokens.navy700,
-                      fontWeight: FontWeight.w600),
+                    color: MerkaThemeTokens.navy700,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               if (_endDate.isBefore(_startDate))
                 const Text(
                   'La fecha fin no puede ser anterior a la de inicio.',
                   style: TextStyle(
-                      color: MerkaThemeTokens.danger, fontSize: 12),
+                    color: MerkaThemeTokens.danger,
+                    fontSize: 12,
+                  ),
                 ),
               const SizedBox(height: 10),
               // Comentarios
@@ -471,7 +484,9 @@ class _NewRequestDialogState extends State<_NewRequestDialog> {
                 Text(
                   _error!,
                   style: const TextStyle(
-                      color: MerkaThemeTokens.danger, fontSize: 12),
+                    color: MerkaThemeTokens.danger,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ],
@@ -489,7 +504,8 @@ class _NewRequestDialogState extends State<_NewRequestDialog> {
               ? const SizedBox(
                   width: 18,
                   height: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2))
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
               : const Text('Crear solicitud'),
         ),
       ],

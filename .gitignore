@@ -57,6 +57,8 @@ backend_RESPALDO_20260708/
 .env
 .env.*
 !.env.example
+/android/key.properties
+/android/keystores/
 *.key
 *.jks
 *.keystore

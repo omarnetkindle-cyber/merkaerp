@@ -9,9 +9,9 @@ import '../../../db_helper.dart';
 /// Valores legales Colombia 2025 — Decretos oficiales.
 const _kSeed2025 = {
   'year': 2025,
-  'smmlv': 1423500,                  // Decreto (entero COP — minor units COP0dec)
+  'smmlv': 1423500, // Decreto (entero COP — minor units COP0dec)
   'transportation_allowance': 200000, // Decreto
-  'uvt': 47065,                      // Resolución DIAN
+  'uvt': 47065, // Resolución DIAN
   'health_employee_rate': 0.04,
   'health_employer_rate': 0.085,
   'health_exonerated': 0,
@@ -42,9 +42,9 @@ const _kSeed2025 = {
 /// y Resolución DIAN 000238 del 15-dic-2025.
 const _kSeed2026 = {
   'year': 2026,
-  'smmlv': 1750905,                  // Decreto 1469/2025
+  'smmlv': 1750905, // Decreto 1469/2025
   'transportation_allowance': 249095, // Decreto 1470/2025
-  'uvt': 52374,                      // Resolución DIAN 000238/2025
+  'uvt': 52374, // Resolución DIAN 000238/2025
   'health_employee_rate': 0.04,
   'health_employer_rate': 0.085,
   'health_exonerated': 0,
@@ -103,8 +103,9 @@ class PayrollParametersService {
   Future<List<int>> configuredYears(int companyId) async {
     final db = await DatabaseHelper.instance.database;
     final rows = await db.rawQuery(
-      'SELECT DISTINCT year FROM payroll_parameters '
-      'WHERE company_id = ? OR company_id IS NULL ORDER BY year DESC',
+      'SELECT year FROM payroll_parameters '
+      'WHERE company_id = ? OR company_id IS NULL '
+      'GROUP BY year ORDER BY year DESC',
       [companyId],
     );
     return rows.map((r) => (r['year'] as num).toInt()).toList();
@@ -262,8 +263,8 @@ class PayrollParametersService {
       parafiscalCajaRate: (seed['parafiscal_caja_rate']! as num).toDouble(),
       severanceRate: (seed['severance_rate']! as num).toDouble(),
       serviceBonusRate: (seed['service_bonus_rate']! as num).toDouble(),
-      severanceInterestRate:
-          (seed['severance_interest_rate']! as num).toDouble(),
+      severanceInterestRate: (seed['severance_interest_rate']! as num)
+          .toDouble(),
       vacationRate: (seed['vacation_rate']! as num).toDouble(),
     );
     return true;
