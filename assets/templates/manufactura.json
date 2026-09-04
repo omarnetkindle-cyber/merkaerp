@@ -1,0 +1,30 @@
+{
+  "id": "manufactura",
+  "name": "Manufactura",
+  "description": "Produccion, compras, inventario, costos y reportes de operacion.",
+  "features": {
+    "inventory_enabled": true,
+    "production_enabled": true,
+    "purchases_enabled": true,
+    "pos_enabled": true,
+    "cash_enabled": true,
+    "accounting_enabled": true,
+    "reports_enabled": true,
+    "crm_enabled": true,
+    "treasury_enabled": true,
+    "documents_enabled": true,
+    "settings_enabled": true,
+    "fixed_assets_enabled": true,
+    "payroll_enabled": true,
+    "electronic_invoice_enabled": false
+  },
+  "settings": {
+    "default_tax": "19",
+    "invoice_prefix": "MF",
+    "base_catalog": "manufacturing"
+  },
+  "base_catalog": [
+    {"nombre": "Materia prima", "unidad": "UND"},
+    {"nombre": "Producto terminado", "unidad": "UND"}
+  ]
+}

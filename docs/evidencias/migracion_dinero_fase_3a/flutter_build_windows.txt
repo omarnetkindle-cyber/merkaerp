@@ -1,0 +1,8 @@
+Comando:
+flutter build windows --no-pub
+
+Salida cruda:
+Building Windows application...
+Building Windows application...                                    88.1s
+√ Built build\windows\x64\runner\Release\MerkaERP.exe
+Nuget.exe not found, trying to download or use cached version.

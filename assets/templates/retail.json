@@ -1,0 +1,28 @@
+{
+  "id": "retail",
+  "name": "Retail",
+  "description": "Comercio de productos con inventario, compras, ventas POS y reportes.",
+  "features": {
+    "inventory_enabled": true,
+    "pos_enabled": true,
+    "purchases_enabled": true,
+    "cash_enabled": true,
+    "accounting_enabled": true,
+    "reports_enabled": true,
+    "crm_enabled": true,
+    "treasury_enabled": true,
+    "documents_enabled": true,
+    "settings_enabled": true,
+    "electronic_invoice_enabled": false,
+    "payroll_enabled": false,
+    "services_enabled": false
+  },
+  "settings": {
+    "default_tax": "19",
+    "invoice_prefix": "VT",
+    "base_catalog": "retail"
+  },
+  "base_catalog": [
+    {"nombre": "Producto general", "unidad": "UND"}
+  ]
+}

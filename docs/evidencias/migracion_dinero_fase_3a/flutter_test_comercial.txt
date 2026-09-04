@@ -1,0 +1,69 @@
+00:00 +0: loading C:/Users/PC/Desktop/Caja_simple/test/core/currency/money_value_test.dart
+00:00 +0: C:/Users/PC/Desktop/Caja_simple/test/core/currency/money_value_test.dart: MoneyValue suma cien valores decimales sin deriva binaria
+00:00 +1: C:/Users/PC/Desktop/Caja_simple/test/core/currency/money_value_test.dart: MoneyValue compara importes solo dentro de la misma moneda y escala
+00:00 +2: C:/Users/PC/Desktop/Caja_simple/test/core/currency/money_value_test.dart: MoneyValue convierte texto a unidades menores y vuelve sin perdida
+00:00 +3: C:/Users/PC/Desktop/Caja_simple/test/core/currency/money_value_test.dart: MoneyValue multiplica y divide con redondeo racional exacto
+00:00 +4: C:/Users/PC/Desktop/Caja_simple/test/core/currency/money_value_test.dart: MoneyValue falla cerrado sin moneda resuelta
+00:00 +5: C:/Users/PC/Desktop/Caja_simple/test/core/currency/money_value_test.dart: MoneyValue rechaza precision mayor a la escala de la moneda
+00:00 +6: C:/Users/PC/Desktop/Caja_simple/test/core/currency/money_value_test.dart: MoneyValue serializa unidades menores SQLite sin conversion implicita
+00:00 +7: C:/Users/PC/Desktop/Caja_simple/test/core/currency/money_value_test.dart: MoneyValue aplica factores decimales y porcentajes de forma exacta
+00:00 +8: loading C:/Users/PC/Desktop/Caja_simple/test/sales_flow_test.dart
+00:01 +8: C:/Users/PC/Desktop/Caja_simple/test/sales_flow_test.dart: (setUpAll)
+Inicializando tablas del Sector Público para nueva instalación...
+00:05 +8: C:/Users/PC/Desktop/Caja_simple/test/sales_flow_test.dart: venta POS descuenta inventario, registra caja y asiento contable
+00:06 +9: C:/Users/PC/Desktop/Caja_simple/test/sales_flow_test.dart: venta POS aplica ReteICA solo desde regla activa de ventas
+00:06 +10: C:/Users/PC/Desktop/Caja_simple/test/sales_flow_test.dart: (tearDownAll)
+00:06 +10: loading C:/Users/PC/Desktop/Caja_simple/test/commerce_rules_test.dart
+00:07 +10: C:/Users/PC/Desktop/Caja_simple/test/commerce_rules_test.dart: PaymentPolicy asigna compra en efectivo completamente a caja
+00:07 +11: C:/Users/PC/Desktop/Caja_simple/test/commerce_rules_test.dart: PaymentPolicy completa pago mixto parcial con credito automatico
+00:07 +12: C:/Users/PC/Desktop/Caja_simple/test/commerce_rules_test.dart: PaymentPolicy rechaza pago mixto mayor al total
+00:07 +13: C:/Users/PC/Desktop/Caja_simple/test/commerce_rules_test.dart: CatalogService deshabilitar IVA deja solo impuesto exento
+00:07 +14: C:/Users/PC/Desktop/Caja_simple/test/commerce_rules_test.dart: CatalogService prioriza impuesto por defecto de plantilla
+00:07 +15: C:/Users/PC/Desktop/Caja_simple/test/commerce_rules_test.dart: CatalogService respeta catalogo persistente personalizado
+00:07 +16: loading C:/Users/PC/Desktop/Caja_simple/test/reporte_fiscal_nomina_integration_test.dart
+00:08 +16: C:/Users/PC/Desktop/Caja_simple/test/reporte_fiscal_nomina_integration_test.dart: (setUpAll)
+Inicializando tablas del Sector Público para nueva instalación...
+00:12 +16: C:/Users/PC/Desktop/Caja_simple/test/reporte_fiscal_nomina_integration_test.dart: reporte fiscal usa neto_pagar e intereses de cesantias al 12% anual
+00:12 +17: C:/Users/PC/Desktop/Caja_simple/test/reporte_fiscal_nomina_integration_test.dart: (tearDownAll)
+00:12 +17: loading C:/Users/PC/Desktop/Caja_simple/test/core/invoicing/cufe_test.dart
+00:13 +17: C:/Users/PC/Desktop/Caja_simple/test/core/invoicing/cufe_test.dart: computeCufe deterministic example
+00:13 +18: C:/Users/PC/Desktop/Caja_simple/test/core/invoicing/cufe_test.dart: facturacion and sales panel produce same CUFE for same inputs
+00:13 +19: C:/Users/PC/Desktop/Caja_simple/test/core/invoicing/cufe_test.dart: mismo segundo con distintos milisegundos produce el mismo CUFE
+00:13 +20: loading C:/Users/PC/Desktop/Caja_simple/test/api_dispatcher_test.dart
+00:14 +20: C:/Users/PC/Desktop/Caja_simple/test/api_dispatcher_test.dart: ApiDispatcher expone resumen operativo con inventario, ventas y compras
+00:14 +21: C:/Users/PC/Desktop/Caja_simple/test/api_dispatcher_test.dart: ApiDispatcher pagina listados y expone metadatos de paginacion
+00:14 +22: C:/Users/PC/Desktop/Caja_simple/test/api_dispatcher_test.dart: ApiDispatcher bloquea endpoints cuando el rol no tiene permiso
+00:14 +23: C:/Users/PC/Desktop/Caja_simple/test/api_dispatcher_test.dart: ApiDispatcher expone balance de comprobacion contable
+00:14 +24: C:/Users/PC/Desktop/Caja_simple/test/api_dispatcher_test.dart: ApiDispatcher crea venta desde cuerpo API con nombres externos
+00:14 +25: C:/Users/PC/Desktop/Caja_simple/test/api_dispatcher_test.dart: ApiDispatcher crea compra desde cuerpo API y serializa asignacion de pago
+00:14 +26: C:/Users/PC/Desktop/Caja_simple/test/api_dispatcher_test.dart: ApiDispatcher expone endpoints empresariales de readiness y seguridad
+00:14 +27: C:/Users/PC/Desktop/Caja_simple/test/api_dispatcher_test.dart: ApiDispatcher expone flujos empresariales y reposicion de inventario
+00:14 +28: C:/Users/PC/Desktop/Caja_simple/test/api_dispatcher_test.dart: ApiDispatcher expone empresas y reporte fiscal sin endpoints pendientes
+00:14 +29: loading C:/Users/PC/Desktop/Caja_simple/test/commercial_security_test.dart
+00:15 +29: C:/Users/PC/Desktop/Caja_simple/test/commercial_security_test.dart: Seguridad Comercial & Aislamiento Multi-Empresa 1. Consultas tributarias aisladas por company_id no mezclan cifras entre empresas
+00:15 +30: C:/Users/PC/Desktop/Caja_simple/test/commercial_security_test.dart: Seguridad Comercial & Aislamiento Multi-Empresa 2. Sesión nula/sin autenticar responde FAIL-CLOSED (bloquea view y export)
+00:15 +31: C:/Users/PC/Desktop/Caja_simple/test/commercial_security_test.dart: Seguridad Comercial & Aislamiento Multi-Empresa 3. Usuario autenticado con rol consulta SÍ puede ver pero NO crear/editar
+00:15 +32: C:/Users/PC/Desktop/Caja_simple/test/commercial_security_test.dart: Seguridad Comercial & Aislamiento Multi-Empresa 4. Rol explícito "sistema" permite ejecución de procesos internos/batch
+00:15 +33: C:/Users/PC/Desktop/Caja_simple/test/commercial_security_test.dart: Seguridad Comercial & Aislamiento Multi-Empresa 5. El rol "sistema" está protegido contra asignación a usuarios humanos (Fail-Closed)
+00:15 +34: C:/Users/PC/Desktop/Caja_simple/test/commercial_security_test.dart: Seguridad Comercial & Aislamiento Multi-Empresa 6. obtenerEmpresaActivaId transaccional lanza StateError en BD sin empresa (Fail-Closed)
+00:15 +35: loading C:/Users/PC/Desktop/Caja_simple/test/accounting_rules_test.dart
+00:16 +35: C:/Users/PC/Desktop/Caja_simple/test/accounting_rules_test.dart: AccountingEngine configurable usa cuentas configuradas para venta
+00:16 +36: C:/Users/PC/Desktop/Caja_simple/test/accounting_rules_test.dart: AccountingEngine configurable usa cuentas configuradas para compra
+00:16 +37: loading C:/Users/PC/Desktop/Caja_simple/test/domain_models_test.dart
+00:17 +37: C:/Users/PC/Desktop/Caja_simple/test/domain_models_test.dart: Product domain calcula resumen de inventario por costo, venta y stock bajo
+00:17 +38: C:/Users/PC/Desktop/Caja_simple/test/domain_models_test.dart: Sales domain convierte mapas legacy a modelo de venta
+00:17 +39: C:/Users/PC/Desktop/Caja_simple/test/domain_models_test.dart: Purchases domain convierte mapas legacy a modelo de compra
+00:17 +40: loading C:/Users/PC/Desktop/Caja_simple/test/sales_repository_test.dart
+00:18 +40: C:/Users/PC/Desktop/Caja_simple/test/sales_repository_test.dart: SqliteSaleRepository lista ventas aisladas por empresa activa
+00:18 +41: C:/Users/PC/Desktop/Caja_simple/test/sales_repository_test.dart: SqliteSaleRepository crea cabecera de venta con company_id activo
+00:18 +42: C:/Users/PC/Desktop/Caja_simple/test/sales_repository_test.dart: SqliteSaleRepository calcula total de ventas por empresa excluyendo anuladas
+00:18 +43: loading C:/Users/PC/Desktop/Caja_simple/test/purchase_repository_test.dart
+00:18 +43: C:/Users/PC/Desktop/Caja_simple/test/purchase_repository_test.dart: SqlitePurchaseRepository lista compras aisladas por empresa activa
+00:18 +44: C:/Users/PC/Desktop/Caja_simple/test/purchase_repository_test.dart: SqlitePurchaseRepository crea cabecera de compra con company_id activo
+00:18 +45: C:/Users/PC/Desktop/Caja_simple/test/purchase_repository_test.dart: SqlitePurchaseRepository calcula total de compras excluyendo anuladas
+00:18 +46: loading C:/Users/PC/Desktop/Caja_simple/test/core/invoicing/crear_factura_integration_test.dart
+00:19 +46: C:/Users/PC/Desktop/Caja_simple/test/core/invoicing/crear_factura_integration_test.dart: (setUpAll)
+Inicializando tablas del Sector Público para nueva instalación...
+00:23 +46: C:/Users/PC/Desktop/Caja_simple/test/core/invoicing/crear_factura_integration_test.dart: crearFacturaElectronicaBorrador produce XML con supplier y líneas mapeadas
+00:23 +47: C:/Users/PC/Desktop/Caja_simple/test/core/invoicing/crear_factura_integration_test.dart: (tearDownAll)
+00:23 +47: All tests passed!

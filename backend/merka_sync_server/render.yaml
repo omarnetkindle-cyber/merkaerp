@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: merka-sync-server
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: merka-sync-db
+          property: connectionString
+      - key: MERKA_SYNC_PUBLIC_KEY_PEM
+        sync: false
+
+databases:
+  - name: merka-sync-db
+    plan: free
+    databaseName: merka_sync
+    user: merka_sync

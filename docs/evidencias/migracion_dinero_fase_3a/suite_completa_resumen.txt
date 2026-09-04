@@ -1,0 +1,41 @@
+Comando:
+flutter test --reporter silent --file-reporter json:phase3a_all_tests_after.json --concurrency=4
+
+Salida cruda del conteo de eventos JSON:
+Suites     : 78
+Tests      : 213
+Passed     : 185
+Error      : 25
+Skipped    : 3
+RunnerDone : 1
+
+FAILED:
+package:flutter_test/src/widget_tester.dart :: muestra login de MerkaERP
+package:flutter_test/src/widget_tester.dart :: todos los modulos principales abren sin excepciones
+test/sector_publico/activos/acta_responsabilidad_service_test.dart :: Asignar Acta de Responsabilidad y Exportar a Plano
+test/sector_publico/auditoria/fut_territorial_service_test.dart :: FUTTerritorialService genera formulario FUT Ingresos y exporta a plano DNP
+test/sector_publico/auditoria/sia_observa_service_test.dart :: SIAObservaService genera reporte de Plan de Mejoramiento y exporta a plano CGR
+test/sector_publico/configuracion/configuracion_general_service_test.dart :: carga configuracion sin excepciones en una entidad sin configurar
+test/sector_publico/configuracion/onboarding_legado_migracion_test.dart :: migra onboarding publico legado de municipio al esquema sectorial
+test/sector_publico/presupuesto/presupuesto_pago_integracion_test.dart :: flujo completo descuenta PAC, actualiza saldos y genera asiento NICSP
+test/sector_publico/presupuesto/presupuesto_pago_integracion_test.dart :: bloquea saltos de cadena, cupo PAC insuficiente y pago no aprobado
+test/sector_publico/regalias/sicodis_service_test.dart :: Generacion de Certificacion SICODIS SGP y Exportacion a Plano DNP
+test/sector_publico/rentas/exportacion_declaraciones_test.dart :: Exportacion de Liquidacion Predial y Declaracion ICA a formato plano
+test/sector_publico/salud/facturacion_salud_service_test.dart :: Registro de Contrato EPS/ADRES, Expedicion de Factura de Salud y Exportacion Plano
+package:flutter_test/src/widget_tester.dart :: PredialICAPage renders Predial and ICA tabs and TODO banner
+package:flutter_test/src/widget_tester.dart :: Presupuesto Publico Page Tests Crear apropiacion y verificar en base de datos
+package:flutter_test/src/widget_tester.dart :: SaludPublicaPage renders RIPS and Glosas tabs and TODO banner
+test/sector_publico/siif/siif_service_test.dart :: SIIFService genera reporte presupuestal mensual y exporta a plano
+package:flutter_test/src/widget_tester.dart :: muestra el centro de trabajo de MerkaERP
+package:flutter_test/src/widget_tester.dart :: workspace renderiza en dark high contrast sin overflow
+package:flutter_test/src/widget_tester.dart :: Presupuesto Publico Page Tests Bloqueo normativo: CDP excede saldo disponible
+package:flutter_test/src/widget_tester.dart :: Presupuesto Publico Page Tests Crear CDP valido y verificar en base de datos
+package:flutter_test/src/widget_tester.dart :: Presupuesto Publico Page Tests Bloqueo normativo: RP sin contrato (Ley 80/1993 Art. 41)
+package:flutter_test/src/widget_tester.dart :: Presupuesto Publico Page Tests Crear RP valido con contrato y verificar en base de datos
+package:flutter_test/src/widget_tester.dart :: Presupuesto Publico Page Tests Bloqueo normativo: Obligacion sin acta de recibo ni factura
+package:flutter_test/src/widget_tester.dart :: Presupuesto Publico Page Tests Crear obligacion valida con acta de recibo y verificar en base de datos
+(tearDownAll)
+
+Nota cruda del runner:
+El evento final `done` fue escrito. El proceso `flutter_tester` no libero el
+canal tras completar las 78 suites y fue detenido despues de conservar el JSON.

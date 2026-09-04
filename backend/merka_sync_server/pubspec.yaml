@@ -1,0 +1,19 @@
+name: merka_sync_server
+description: Backend MVP independiente para sincronización offline-first de MerkaERP.
+publish_to: 'none'
+
+environment:
+  sdk: ^3.3.0
+
+dependencies:
+  args: ^2.5.0
+  basic_utils: ^5.7.0
+  crypto: ^3.0.3
+  postgres: ^3.0.0
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
+  uuid: ^4.4.0
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.25.0

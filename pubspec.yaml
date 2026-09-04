@@ -1,0 +1,130 @@
+name: merka_erp
+description: "MerkaERP - Plataforma ERP empresarial para operacion, finanzas, contabilidad y control."
+publish_to: 'none'
+
+version: 1.3.0+8
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  sqflite: ^2.4.2+1
+  path: ^1.9.1
+  sqflite_common_ffi: ^2.4.0+3
+  postgres: ^3.0.0
+
+  excel: ^4.0.6
+  path_provider: ^2.1.4
+  pdf: ^3.11.1
+  printing: ^5.13.4
+  image_picker: ^1.1.2
+  file_picker: ^8.1.7
+
+  cupertino_icons: ^1.0.8
+  fl_chart: ^0.68.0
+  phosphor_flutter: ^2.1.0
+  
+  shelf: ^1.4.0
+  shelf_router: ^1.1.0
+  dio: ^5.4.0
+  crypto: ^3.0.0
+  bcrypt: ^1.2.0
+
+  # Cache
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  shared_preferences: ^2.2.2
+
+  # Authentication & Security
+  local_auth: ^2.1.8
+  flutter_secure_storage: ^9.0.0
+  otp: ^3.1.4
+  pointycastle: ^3.7.3
+  basic_utils: ^5.7.0
+
+  # UI & UX
+  google_fonts: ^6.1.0
+  flutter_colorpicker: ^1.0.3
+  reorderable_grid_view: ^2.2.7
+  flutter_slidable: ^3.0.1
+  cached_network_image: ^3.3.0
+  flutter_svg: ^2.0.9
+
+  # Scanner
+  mobile_scanner: ^4.0.1
+
+  # Charts & Analytics
+  syncfusion_flutter_charts: ^24.1.41
+
+  # Integrations
+  http: ^1.2.0
+  mailer: ^7.2.0
+  intl: ^0.19.0
+  url_launcher: ^6.2.2
+  share_plus: ^7.2.1
+  flutter_local_notifications: ^17.0.0
+  connectivity_plus: ^5.0.2
+  flutter_dotenv: ^5.1.0
+
+  # Signatures
+  signature: ^5.4.1
+
+  # Calendar
+  table_calendar: ^3.0.9
+
+  # Markdown
+  flutter_markdown: ^0.6.18
+
+  # State Management
+  provider: ^6.1.1
+
+  # JSON Serialization
+  json_annotation: ^4.8.1
+
+  # UUID
+  uuid: ^4.3.3
+
+  # Hardware Fingerprint
+  device_info_plus: ^9.1.0
+  convert: ^3.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.14.3
+  flutter_lints: ^6.0.0
+  msix: ^3.18.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.8
+  json_serializable: ^6.7.1
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/merkaerp_icon.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#0A2540"
+  adaptive_icon_foreground: "assets/icon/merkaerp_icon_fg.png"
+  windows:
+    generate: true
+    image_path: "assets/icon/merkaerp_icon.png"
+    icon_size: 48
+
+msix_config:
+  display_name: MerkaERP
+  publisher_display_name: MerkaERP
+  identity_name: MerkaERP.MerkaERP
+  publisher: CN=MerkaERP
+  msix_version: 1.3.0.8
+  logo_path: assets/icon/merkaerp_icon.png
+  capabilities: internetClient
+  extra_content_dirs:
+    - build/native_assets/windows/
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/templates/

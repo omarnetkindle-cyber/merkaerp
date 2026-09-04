@@ -1,0 +1,42 @@
+name: MerkaERP quality gate
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-quality:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.41.9
+          channel: stable
+          cache: true
+      - name: Resolve dependencies
+        run: flutter pub get
+      - name: Project static release checks
+        run: |
+          python tool/release_static_check.py
+          python tool/ui_static_audit.py
+          python tool/roadmap_feature_gate.py
+      - name: Dart analyzer (strict)
+        run: flutter analyze
+      - name: Fresh-schema query audit
+        run: flutter test tool/audit_schema_queries.dart --reporter expanded
+      - name: Tests
+        run: flutter test --reporter expanded
+      - name: Compile Windows release candidate
+        run: >-
+          flutter build windows --release
+          --dart-define=MERKA_ANALYZER_CLEAN=true
+          --dart-define=MERKA_TESTS_PASSING=true
+          --dart-define=MERKA_VERSION_INCREMENTED=true
+          --dart-define=MERKA_PRODUCTION_SIGNATURE=false
+          --dart-define=MERKA_PRIVACY_REVIEWED=false

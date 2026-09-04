@@ -1,0 +1,30 @@
+{
+  "id": "restaurante",
+  "name": "Restaurante",
+  "description": "Operacion de restaurante con POS, caja, inventario e insumos.",
+  "features": {
+    "inventory_enabled": true,
+    "pos_enabled": true,
+    "purchases_enabled": true,
+    "cash_enabled": true,
+    "accounting_enabled": true,
+    "reports_enabled": true,
+    "crm_enabled": true,
+    "treasury_enabled": true,
+    "documents_enabled": true,
+    "settings_enabled": true,
+    "production_enabled": true,
+    "multi_branch_enabled": false,
+    "electronic_invoice_enabled": false,
+    "payroll_enabled": false
+  },
+  "settings": {
+    "default_tax": "8",
+    "invoice_prefix": "RS",
+    "base_catalog": "restaurant"
+  },
+  "base_catalog": [
+    {"nombre": "Menu del dia", "unidad": "UND"},
+    {"nombre": "Bebida", "unidad": "UND"}
+  ]
+}
