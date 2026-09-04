@@ -20,6 +20,9 @@ class ConfiguracionPage extends StatefulWidget {
 }
 
 class _ConfiguracionPageState extends State<ConfiguracionPage> {
+  static const String _defaultMerkaSyncEndpoint =
+      'https://merka-sync-server-sju2.onrender.com';
+
   final nombreCtrl = TextEditingController();
   final nitCtrl = TextEditingController();
   final regimenCtrl = TextEditingController();
@@ -84,7 +87,8 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
     monedaCtrl.text = data['moneda']?.toString() ?? 'COP';
     logoPathCtrl.text = data['logo_path']?.toString() ?? '';
     syncEndpointCtrl.text =
-        await _leerAppConfig(db: db, clave: 'merka_sync_server_endpoint') ?? '';
+        await _leerAppConfig(db: db, clave: 'merka_sync_server_endpoint') ??
+        _defaultMerkaSyncEndpoint;
     features = companyConfig.features;
     vatEnabled = companyConfig.settings['vat_enabled'] != '0';
     withholdingEnabled = companyConfig.settings['withholding_enabled'] == '1';
@@ -499,7 +503,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
               keyboardType: TextInputType.url,
               decoration: const InputDecoration(
                 labelText: 'Endpoint del servidor Merka Sync',
-                hintText: 'https://tu-servicio.onrender.com',
+                hintText: _defaultMerkaSyncEndpoint,
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.cloud_sync_outlined),
               ),

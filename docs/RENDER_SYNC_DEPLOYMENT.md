@@ -58,7 +58,7 @@ El backend también acepta el alias `MERKA_LICENSE_PUBLIC_KEY_PEM`, pero se reco
 9. Abrir:
 
 ```text
-https://<tu-servicio>.onrender.com/health
+https://merka-sync-server-sju2.onrender.com/health
 ```
 
 Debe responder estado saludable.
@@ -72,7 +72,7 @@ En la app:
 3. Pegar el endpoint de Render:
 
 ```text
-https://<tu-servicio>.onrender.com
+https://merka-sync-server-sju2.onrender.com
 ```
 
 4. Guardar.
