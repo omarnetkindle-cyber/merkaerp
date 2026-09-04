@@ -1,5 +1,7 @@
 # MerkaERP 1.3.0+8
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/omarnetkindle-cyber/merkaerp)
+
 MerkaERP es una plataforma ERP Flutter/SQLite, offline-first y multiempresa. El producto se distribuye en dos **familias independientes** fijadas por licencia firmada:
 
 - **MerkaERP Comercial:** ventas/POS, compras, inventario, caja, cartera, tesorería, contabilidad, CRM, HRM, MRP, activos, documentos, reportes e integraciones empresariales.
